@@ -25,7 +25,7 @@ namespace Scuola.Services
         }
 
         // get studente by id
-        public async Task<Studente?> GetStudente(Guid id)
+        public async Task<Studente?> GetStudenteAsync(Guid id)
         {
             try
             {

@@ -28,7 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //registrare servizi
-builder.Services.AddScoped<Studente>();
+builder.Services.AddScoped<StudenteService>();
 
 var app = builder.Build();
 
