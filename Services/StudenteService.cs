@@ -2,6 +2,7 @@
 using Scuola.Models.Entity;
 using Scuola.Models.Dto.Request;
 using Scuola.Models.Dto.Response;
+using Scuola.Models.Mappings;
 
 namespace Scuola.Services
 {
@@ -16,20 +17,12 @@ namespace Scuola.Services
         {
             try
             {
-                return await _context.Studenti
+                var studenti = await _context.Studenti
                     .Include(s => s.Profilo)
                     .AsNoTracking()
-                    .Select(s => new StudenteResponse
-                    {
-                        Id = s.Id,
-                        Nome = s.Nome,
-                        Cognome = s.Cognome,
-                        Email = s.Email,
-                        ProfiloId = s.Profilo != null ? s.Profilo.Id : Guid.Empty,
-                        CodiceFiscale = s.Profilo != null ? s.Profilo.CodiceFiscale : string.Empty,
-                        DataDiNascita = s.Profilo != null ? s.Profilo.DataDiNascita : DateOnly.MinValue
-                    })
                     .ToListAsync();
+
+                return StudenteMapper.Convert(studenti);
             }
             catch (Exception ex)
             {
@@ -49,22 +42,11 @@ namespace Scuola.Services
                     .FirstOrDefaultAsync(s => s.Id == id);
 
                 if (studente is null)
-
                 {
                     return null;
-
                 }
 
-                return new StudenteResponse
-                {
-                    Id = studente.Id,
-                    Nome = studente.Nome,
-                    Cognome = studente.Cognome,
-                    Email = studente.Email,
-                    ProfiloId = studente.Profilo?.Id ?? Guid.Empty,
-                    CodiceFiscale = studente.Profilo?.CodiceFiscale ?? string.Empty,
-                    DataDiNascita = studente.Profilo?.DataDiNascita ?? DateOnly.MinValue
-                };
+                return StudenteMapper.Convert(studente);
             }
             catch (Exception ex)
             {
@@ -101,16 +83,8 @@ namespace Scuola.Services
 
                 if (await SaveAsync())
                 {
-                    return new StudenteResponse
-                    {
-                        Id = studente.Id,
-                        Nome = studente.Nome,
-                        Cognome = studente.Cognome,
-                        Email = studente.Email,
-                        ProfiloId = profilo.Id,
-                        CodiceFiscale = profilo.CodiceFiscale,
-                        DataDiNascita = profilo.DataDiNascita
-                    };
+                    studente.Profilo = profilo;
+                    return StudenteMapper.Convert(studente);
                 }
 
                 return null;
@@ -157,16 +131,7 @@ namespace Scuola.Services
 
                 if (await SaveAsync())
                 {
-                    return new StudenteResponse
-                    {
-                        Id = studente.Id,
-                        Nome = studente.Nome,
-                        Cognome = studente.Cognome,
-                        Email = studente.Email,
-                        ProfiloId = studente.Profilo?.Id ?? Guid.Empty,
-                        CodiceFiscale = studente.Profilo?.CodiceFiscale ?? string.Empty,
-                        DataDiNascita = studente.Profilo?.DataDiNascita ?? DateOnly.MinValue
-                    };
+                    return StudenteMapper.Convert(studente);
                 }
 
                 return null;
