@@ -16,7 +16,7 @@ namespace Scuola.Models.Entity
         [StringLength(50)]
         public string Cognome { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Email obbligatorio")]
+        [Required(ErrorMessage = "Email obbligatoria")]
         [StringLength(70)]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;

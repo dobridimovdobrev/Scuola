@@ -9,5 +9,6 @@ namespace Scuola.Models.Entity
         }
 
         public DbSet<Studente> Studenti { get; set; }
+        public DbSet<StudenteProfilo> Profili { get; set; }
     }
 }

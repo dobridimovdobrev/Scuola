@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Scuola.Models.Entity
+namespace Scuola.Models.Dto.Request
 {
-    public class StudenteProfilo
+    public class CreateStudenteRequest
     {
-        [Key]
-        public Guid Id { get; set; }
+        //studente
 
         [Required(ErrorMessage = "Nome obbligatorio")]
         [StringLength(50)]
@@ -16,17 +14,17 @@ namespace Scuola.Models.Entity
         [StringLength(50)]
         public string Cognome { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Email obbligatoria")]
+        [StringLength(70)]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        //profilo
         [Required(ErrorMessage = "Codice fiscale obbligatorio")]
-        [StringLength(16)]
+        [StringLength(16, MinimumLength = 16, ErrorMessage = "Il codice fiscale deve essere di 16 caratteri")]
         public string CodiceFiscale { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Data di nascita obbligatoria")]
         public DateOnly DataDiNascita { get; set; }
-
-        //relazione uno a uno
-        [ForeignKey(nameof(Studente))]
-        public Guid StudenteId { get; set; }
-        public Studente? Studente { get; set; }
-
     }
 }
