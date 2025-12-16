@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Scuola.Models.Entity
 {
-    public class Studente
+    public class StudenteProfilo
     {
         [Key]
         public Guid Id { get; set; }
@@ -16,12 +16,15 @@ namespace Scuola.Models.Entity
         [StringLength(50)]
         public string Cognome { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Email obbligatorio")]
-        [StringLength(70)]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Codice fiscale obbligatorio")]
+        [StringLength(16)]
+        public string CodiceFiscale { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Data di nascita obbligatoria")]
+        public DateOnly DataDiNascita { get; set; }
 
         //relazione uno a uno
-        public StudenteProfilo? Profilo { get; set; }
+        public Studente? Studente { get; set; }
+
     }
 }
